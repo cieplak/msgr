@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+
+  vars:
+    kafka_download_url: http://mirror.nexcess.net/apache/kafka/0.8.2.1/kafka_2.9.1-0.8.2.1.tgz
+    kafka_tarball: kafka_2.9.1-0.8.2.1.tgz
+    kafka_directory: kafka_2.9.1-0.8.2.1
+
+  tasks:
+
+  - name: update ubuntu
+    shell: apt-get update
+    sudo: yes
+
+  - name: Java
+    apt: name=openjdk-7-jdk state=present
+    sudo: yes
+
+  - name: Download Kafka
+    shell: wget "{{ kafka_download_url }}"
+    args:
+      creates: "{{ kafka_tarball }}"
+
+  - name: Untar Kafka
+    shell: tar xzvf "{{ kafka_tarball }}"
+    args:
+      creates: "{{ kafka_directory }}"

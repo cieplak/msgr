@@ -1,0 +1,20 @@
+---
+
+- name: install deps
+  sudo: yes
+  apt: name=libc6 state=installed
+
+- name: update apt cache
+  sudo: yes
+  shell: echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' | sudo tee --append /etc/apt/sources.list.d/pgdg.list
+  args:
+    creates: /etc/apt/sources.list.d/pgdg.list
+
+
+- name: install postgres
+  sudo: yes
+  script: install.sh
+
+- name: "Ensure Redis server is running"
+  sudo: yes
+  action: service name=postgresql-9.4 state=started

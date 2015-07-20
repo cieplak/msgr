@@ -1,0 +1,28 @@
+---
+- name: msgr
+  hosts: all
+  roles:
+    - redis
+    - postgres
+
+  tasks:
+
+  - name: update ubuntu
+    shell: apt-get update
+    sudo: yes
+
+  - name: pip
+    apt: name=python-pip state=present
+    sudo: yes
+
+  - name: virtualenv
+    sudo: yes
+    apt: name=python-virtualenv state=present
+
+  - name: mkvirtualenv
+    shell: cd ~/msgr/ && mkdir .venv &&  mkdir .venv/msgr && virtualenv .venv/msgr
+    args:
+      creates: "~/msgr/.venv"
+
+  - name: activite venv
+    shell: . /home/username/.bashrc && source ~/msgr/.venv/msgr/bin/activate

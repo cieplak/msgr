@@ -1,0 +1,15 @@
+---
+
+- name: "Install Redis server"
+  sudo: yes
+  apt:  name={{ redis.deb.package }} state=latest update-cache=yes
+
+- name: "Bind Redis server to all interfaces"
+  sudo: yes
+  action: lineinfile dest=/etc/redis/redis.conf state=present regexp="^#?bind" line="#bind 127.0.0.1"
+  notify:
+    - "Restart Redis"
+
+- name: "Ensure Redis server is running"
+  sudo: yes
+  action: service name={{ redis.deb.service }} state=started

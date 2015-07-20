@@ -1,0 +1,6 @@
+---
+
+redis:
+  deb:
+    package: 'redis-server'
+    service: 'redis-server'
